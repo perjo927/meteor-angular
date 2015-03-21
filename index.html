@@ -1,14 +1,15 @@
 <head>
     <title>Project Alpha</title>
+    <base href="/">
 </head>
-
 <body>
-    <h1>Welcome to Project Alpha!</h1>
 
-    <div ng-app="socially" ng-include="'index.ng.html'">
-
-        
+    <div ng-app="socially">
+        <h1>
+            <a href="/parties">Home</a>
+        </h1>
+        <div ui-view></div>
     </div>
-</body>
 
+</body>
 
