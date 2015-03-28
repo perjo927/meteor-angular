@@ -22,11 +22,10 @@
         </div>
         <li dir-paginate="party in parties | itemsPerPage: perPage" total-items="partiesCount.count">
             <a href="/parties/[[party._id]]">[[party.name]]</a>
-
-            <p>[[party.description]]</p>
+            <p><small>Posted by [[ creator(party) | displayName]]</small></p>
             <button ng-click="remove(party)">X</button>
+            <p>[[party.description]]</p>
         </li>
-
     </ul>
     <dir pagination-controls on-page="pageChanged(newPageNumber)"></dir>
 

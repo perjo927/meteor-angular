@@ -6,8 +6,9 @@ angular.module("socially").controller("PartiesListCtrl", ['$scope', '$meteor', '
     $scope.sort = { name: 1 };
     $scope.orderProperty = '1';
 
-    $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
-    
+    $scope.users = $meteor.collection(Meteor.users, false)
+    $meteor.subscribe('users');
+      
     $scope.parties = $meteor.collection(function() {
       return Parties.find({}, {
         sort : $scope.getReactively('sort')
