@@ -1,7 +1,13 @@
 
 angular.module("socially").controller("PartyDetailsCtrl", ['$scope', '$stateParams', '$meteor', function($scope, $stateParams, $meteor){
-    $scope.party = $meteor.object(Parties, $stateParams.partyId).subscribe('parties');
+    $scope.party = $meteor.object(Parties, $stateParams.partyId);
     $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
+
+    var subscriptionHandle;
+
+    $meteor.subscribe('parties').then(function(handle) {
+        subscriptionHandle = handle;
+    });
 
     $scope.save = function() {
         $scope.party.save().then(function(numberOfDocs){
@@ -14,4 +20,8 @@ angular.module("socially").controller("PartyDetailsCtrl", ['$scope', '$statePara
     $scope.reset = function() {
         $scope.party.reset();
     };
+
+    $scope.$on('$destroy', function() {
+        subscriptionHandle.stop();
+    });
 }]);

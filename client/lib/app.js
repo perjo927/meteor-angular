@@ -1,6 +1,9 @@
 
-angular.module('socially',['angular-meteor', 'ui.router'],
-               function($interpolateProvider) {
+angular.module('socially', [
+
+])
+
+angular.module('socially',['angular-meteor', 'ui.router', 'angularUtils.directives.dirPagination'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 });
