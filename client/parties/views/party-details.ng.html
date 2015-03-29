@@ -8,7 +8,7 @@ Here you will see and change the details of the party:
 <ul ng-show="canInvite()">
     Users to invite:
     <li ng-repeat="user in users | uninvited:party">
-        <div>{{ user | displayName ]]</div>
+        <div>{{ user | displayName }}</div>
         <button ng-click="invite(user)">Invite</button>
     </li>
     <li ng-if="(users | uninvited:party).length <= 0">
