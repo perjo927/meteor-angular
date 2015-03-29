@@ -3,7 +3,7 @@ angular.module('socially', [
 
 ])
 
-angular.module('socially',['angular-meteor', 'ui.router', 'angularUtils.directives.dirPagination'], function($interpolateProvider) {
+angular.module('socially',['angular-meteor', 'ui.router', 'angularUtils.directives.dirPagination', 'uiGmapgoogle-maps'], function($interpolateProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 });

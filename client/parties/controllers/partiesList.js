@@ -14,34 +14,34 @@ angular.module("socially").controller("PartiesListCtrl", ['$scope', '$meteor', '
       });
     });
 
-    $meteor.autorun($scope, function() {
-      $meteor.subscribe('parties', {
-        limit: parseInt($scope.getReactively('perPage')),
-        skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
-        sort: $scope.getReactively('sort')
-      }, $scope.getReactively('search')).then(function() {
-        $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
+      $meteor.autorun($scope, function() {
+          $meteor.subscribe('parties', {
+              limit: parseInt($scope.getReactively('perPage')),
+              skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
+              sort: $scope.getReactively('sort')
+          }, $scope.getReactively('search')).then(function() {
+              $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
 
-        $scope.parties.forEach( function (party) {
-          party.onClicked = function () {
-            onMarkerClicked(party);
-          };
-        });
+              $scope.parties.forEach( function (party) {
+                  party.onClicked = function () {
+                      onMarkerClicked(party);
+                  };
+              });
 
-        $scope.map = {
-          center: {
-            latitude: 45,
-            longitude: -73
-          },
-          zoom: 8
-        };
+              $scope.map = {
+                  center: {
+                      latitude: 45,
+                      longitude: -73
+                  },
+                  zoom: 8
+              };
 
-        var onMarkerClicked = function(marker){
-          $state.go('partyDetails', {partyId: marker._id});
-        }
+              var onMarkerClicked = function(marker){
+                  $state.go('partyDetails', {partyId: marker._id});
+              }
 
+              });
       });
-    });
 
 
 
