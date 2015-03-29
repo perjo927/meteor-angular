@@ -2,9 +2,9 @@ angular.module('socially',[
     'angular-meteor',
     'ui.router',
     'angularUtils.directives.dirPagination',
-    'uiGmapgoogle-maps',
-])
-  
+    'uiGmapgoogle-maps'
+]);
+
 // TODO: DOesn't work when deploying on meteor
 //    .config(function($interpolateProvider) {
 //    $interpolateProvider.startSymbol('[[');
@@ -16,8 +16,8 @@ function onReady() {
     angular.bootstrap(document, ['socially']);
 }
 
-if (Meteor.isCordova)
+if (Meteor.isCordova) {
     angular.element(document).on("deviceready", onReady);
-else
+} else {
     angular.element(document).ready(onReady);
-
+}
