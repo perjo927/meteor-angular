@@ -1,56 +1,56 @@
 Parties = new Mongo.Collection("parties");
 
 Parties.allow({
-  insert: function (userId, party) {
-    return userId && party.owner === userId;
-  },
-  update: function (userId, party, fields, modifier) {
-    if (userId !== party.owner)
-      return false;
+    insert: function (userId, party) {
+        return userId && party.owner === userId;
+    },
+    update: function (userId, party, fields, modifier) {
+        if (userId !== party.owner)
+            return false;
 
-    return true;
-  },
-  remove: function (userId, party) {
-    if (userId !== party.owner)
-      return false;
+        return true;
+    },
+    remove: function (userId, party) {
+        if (userId !== party.owner)
+            return false;
 
-    return true;
-  }
+        return true;
+    }
 });
 
 Meteor.methods({
     invite: function (partyId, userId) {
-      check(partyId, String);
-      check(userId, String);
-      var party = Parties.findOne(partyId);
+        check(partyId, String);
+        check(userId, String);
+        var party = Parties.findOne(partyId);
         if (!party)
-          throw new Meteor.Error(404, "No such party");
+            throw new Meteor.Error(404, "No such party");
         if (party.owner !== this.userId)
-          throw new Meteor.Error(404, "No such party");
+            throw new Meteor.Error(404, "No such party");
         if (party.public)
-          throw new Meteor.Error(400,
-            "That party is public. No need to invite people.");
+            throw new Meteor.Error(400,
+                                   "That party is public. No need to invite people.");
 
-      if (userId !== party.owner && ! _.contains(party.invited, userId)) {
-        Parties.update(partyId, { $addToSet: { invited: userId } });
+        if (userId !== party.owner && ! _.contains(party.invited, userId)) {
+            Parties.update(partyId, { $addToSet: { invited: userId } });
 
-        var from = contactEmail(Meteor.users.findOne(this.userId));
-        var to = contactEmail(Meteor.users.findOne(userId));
+            var from = contactEmail(Meteor.users.findOne(this.userId));
+            var to = contactEmail(Meteor.users.findOne(userId));
 
-        if (Meteor.isServer && to) {
-          // This code only runs on the server. If you didn't want clients
-          // to be able to see it, you could move it to a separate file.
-          Email.send({
-            from: "noreply@socially.com",
-            to: to,
-            replyTo: from || undefined,
-            subject: "PARTY: " + party.title,
-            text:
-              "Hey, I just invited you to '" + party.title + "' on Socially." +
-              "\n\nCome check it out: " + Meteor.absoluteUrl() + "\n"
-          });
+            if (Meteor.isServer && to) {
+                // This code only runs on the server. If you didn't want clients
+                // to be able to see it, you could move it to a separate file.
+                Email.send({
+                    from: "noreply@socially.com",
+                    to: to,
+                    replyTo: from || undefined,
+                    subject: "PARTY: " + party.title,
+                    text:
+                    "Hey, I just invited you to '" + party.title + "' on Socially." +
+                    "\n\nCome check it out: " + Meteor.absoluteUrl() + "\n"
+                });
+            }
         }
-      }
     },
     rsvp: function (partyId, rsvp) {
         check(partyId, String);
@@ -84,6 +84,7 @@ Meteor.methods({
                 modifier.$set["rsvps." + rsvpIndex + ".rsvp"] = rsvp;
                 Parties.update(partyId, modifier);
             }
+
             // Possible improvement: send email to the other people that are
             // coming to the party.
         } else {
@@ -92,12 +93,12 @@ Meteor.methods({
                            {$push: {rsvps: {user: this.userId, rsvp: rsvp}}});
         }
     }
-  });
+});
 
-  var contactEmail = function (user) {
+var contactEmail = function (user) {
     if (user.emails && user.emails.length)
-      return user.emails[0].address;
+        return user.emails[0].address;
     if (user.services && user.services.facebook && user.services.facebook.email)
-      return user.services.facebook.email;
+        return user.services.facebook.email;
     return null;
-  };
+};

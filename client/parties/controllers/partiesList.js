@@ -7,63 +7,42 @@ angular.module("socially").controller("PartiesListCtrl", ['$scope', '$meteor', '
     $scope.orderProperty = '1';
 
     $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
-      
+    
     $scope.parties = $meteor.collection(function() {
       return Parties.find({}, {
         sort : $scope.getReactively('sort')
       });
     });
 
-      $meteor.autorun($scope, function() {
-          $meteor.subscribe('parties', {
-              limit: parseInt($scope.getReactively('perPage')),
-              skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
-              sort: $scope.getReactively('sort')
-          }, $scope.getReactively('search')).then(function() {
-              $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
+    $meteor.autorun($scope, function() {
+      $meteor.subscribe('parties', {
+        limit: parseInt($scope.getReactively('perPage')),
+        skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
+        sort: $scope.getReactively('sort')
+      }, $scope.getReactively('search')).then(function() {
+        $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
 
-              $scope.parties.forEach( function (party) {
-                  party.onClicked = function () {
-                      onMarkerClicked(party);
-                  };
-              });
+        $scope.parties.forEach( function (party) {
+          party.onClicked = function () {
+            onMarkerClicked(party);
+          };
+        });
 
-              $scope.map = {
-                  center: {
-                      latitude: 45,
-                      longitude: -73
-                  },
-                  zoom: 8
-              };
+        $scope.map = {
+          center: {
+            latitude: 45,
+            longitude: -73
+          },
+          zoom: 8
+        };
 
-              var onMarkerClicked = function(marker){
-                  $state.go('partyDetails', {partyId: marker._id});
-              }
+        var onMarkerClicked = function(marker){
+          $state.go('partyDetails', {partyId: marker._id});
+        }
 
-              });
       });
+    });
 
-
-
-      $scope.rsvp = function(partyId, rsvp){
-          $meteor.call('rsvp', partyId, rsvp).then(
-              function(data){
-                  console.log('success responding', data);
-              },
-              function(err){
-                  console.log('failed', err);
-              }
-          );
-      };
-      $scope.outstandingInvitations = function (party) {
-
-          return _.filter($scope.users, function (user) {
-              return (_.contains(party.invited, user._id) &&
-                      !_.findWhere(party.rsvps, {user: user._id}));
-          });
-      };
-
-      
     $scope.remove = function(party){
       $scope.parties.splice( $scope.parties.indexOf(party), 1 );
     };
