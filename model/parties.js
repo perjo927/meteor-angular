@@ -41,12 +41,12 @@ Meteor.methods({
                 // This code only runs on the server. If you didn't want clients
                 // to be able to see it, you could move it to a separate file.
                 Email.send({
-                    from: "noreply@socially.com",
+                    from: "noreply@programmerPer.com",
                     to: to,
                     replyTo: from || undefined,
                     subject: "PARTY: " + party.title,
                     text:
-                    "Hey, I just invited you to '" + party.title + "' on Socially." +
+                    "Hey, I just invited you to '" + party.title + "' on programmerPer." +
                     "\n\nCome check it out: " + Meteor.absoluteUrl() + "\n"
                 });
             }

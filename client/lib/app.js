@@ -1,19 +1,16 @@
-angular.module('socially',[
+
+
+angular.module('programmerPer',[
     'angular-meteor',
     'ui.router',
     'angularUtils.directives.dirPagination',
-    'uiGmapgoogle-maps'
+    'uiGmapgoogle-maps',
+    'ngMaterial',
+    'menuItems'
 ]);
 
-// TODO: DOesn't work when deploying on meteor
-//    .config(function($interpolateProvider) {
-//    $interpolateProvider.startSymbol('[[');
-//    $interpolateProvider.endSymbol(']]');
-//});
-
-
 function onReady() {
-    angular.bootstrap(document, ['socially']);
+    angular.bootstrap(document, ['programmerPer'], [appConfig]);
 }
 
 if (Meteor.isCordova) {

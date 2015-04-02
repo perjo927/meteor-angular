@@ -1,0 +1,77 @@
+
+<!-- TODO: Master Layout -->
+<div layout="column" ng-controller="MenuCtrl as ml">
+    <!-- TODO: Toolbar component / template -->
+    <md-toolbar layout="row" ng-cloak class="ng-cloak">
+        <md-button class="menu" hide-gt-sm ng-click="ml.toggleMenuList()" aria-label="Show Menu">
+            <md-icon md-svg-icon="menu" ></md-icon>
+        </md-button>
+        <h1>( Per Jonsson === Programmer )</h1>
+    </md-toolbar>
+
+    <div flex layout="row" ng-cloak class="ng-cloak">
+        <!-- TODO: Left sidenav component / template -->
+        <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z5" md-component-id="left">
+            <md-list>
+                <md-item ng-repeat="it in ml.menuItems">
+                    <md-button ng-click="ml.selectMenuItem(it)"
+                               ng-class="{'selected' : it === ml.selectedMenuItem }">
+                        <md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>
+                        {{it.name}}
+                    </md-button>
+                </md-item>
+            </md-list>
+        </md-sidenav>
+
+        <!-- TODO: Content component / template -->
+        <md-content flex id="content" ng-cloak class="md-padding ng-cloak">
+            <md-icon md-svg-icon="{{ml.selectedMenuItem.avatar}}" class="avatar"></md-icon>
+
+            <h2>{{ml.selectedMenuItem.name}}</h2>
+            <p>{{ml.selectedMenuItem.contentHeader}}</p>
+
+
+            <md-button class="action" md-no-ink ng-click="ml.action($event)" aria-label="Action">
+                <md-icon md-svg-icon="{{ml.selectedMenuItem.actionIconUrl}}"></md-icon>
+            </md-button>
+
+            <md-divider></md-divider>
+
+            <md-list>
+                <md-item ng-repeat="item in ml.selectedMenuItem.contentItems">
+                    <md-card class="cv-card">
+                        <h2>{{item.title}} </h2>
+                        <p>{{item.text}}</p>
+                    </md-card>
+                </md-item>
+            </md-list>
+
+
+            <md-button class="next" md-no-ink ng-click="ml.nextItem($event)" aria-label="Next card">
+                <!-- TODO: Fix assets path . Cannot read property element of undefined
+                <md-icon md-svg-icon="assets/svg/ic_navigate_next_24px.svg"></md-icon>
+                -->
+            </md-button>
+
+            <div>
+                <md-button ng-click="ml.toggleRightNav()" class="md-primary" >
+                    Toggle right
+                </md-button>
+            </div>
+
+        </md-content>
+
+        <md-sidenav md-is-locked-open="$mdMedia('gt-lg')" class="md-sidenav-right md-whiteframe-z5"
+                    md-component-id="right">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Sidenav Right</h1>
+            </md-toolbar>
+            <md-content class="md-padding">
+                <md-button ng-click="ml.closeRightNav()" class="md-primary">
+                    Close Sidenav Right
+                </md-button>
+            </md-content>
+        </md-sidenav>
+
+    </div>
+</div>
