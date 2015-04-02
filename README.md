@@ -1,6 +1,6 @@
 # ( Per Jonsson === Programmer )
 
-This digital portfolio of **Per Jonsson** is based on *AngularJS* and *Material Design* .
+This digital portfolio of **Per Jonsson** is based on *Meteor JS*, *AngularJS* and *Material Design* .
 
 ### What is it?
 
